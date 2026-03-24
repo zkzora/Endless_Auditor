@@ -104,10 +104,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ─── Start Server ─────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n🔒 Endless Auditor`);
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-  console.log(`🤖 OpenRouter model: ${MODEL}`);
-  console.log(`📋 API endpoint: POST http://localhost:${PORT}/api/audit\n`);
-});
+// ─── Start Server (Locally) / Export for Vercel ──────────────────────────────
+if (process.env.NODE_ENV !== 'production' && process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`\n🔒 Endless Auditor`);
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(`🤖 OpenRouter model: ${MODEL}`);
+    console.log(`📋 API endpoint: POST http://localhost:${PORT}/api/audit\n`);
+  });
+}
+
+module.exports = app;
