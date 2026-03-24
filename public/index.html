@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endless Auditor — AI Smart Contract Auditor</title>
+  <meta name="description" content="Endless Auditor: AI-powered security auditor for Move smart contracts. Detect vulnerabilities instantly using Gemini AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Monaco Editor -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+</head>
+<body>
+  <div class="bg-orbs"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🔒</div>
+      Endless <span>Auditor</span>
+      <span class="badge">AI Powered</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:0.78rem;color:var(--text-muted);">Powered by Gemini 2.0 Flash</span>
+      <div id="api-status" style="width:8px;height:8px;border-radius:50%;background:#4a5568;" title="Checking API..."></div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>AI-Powered Move<br>Contract Auditor</h1>
+    <p>Paste your Move smart contract and get an instant security audit powered by Google Gemini AI. Detect vulnerabilities before deployment.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">⚡ Instant Analysis</span>
+      <span class="hero-badge">🔍 15+ Vulnerability Types</span>
+      <span class="hero-badge">🌐 Endless Blockchain</span>
+      <span class="hero-badge">📋 Exportable Reports</span>
+    </div>
+  </section>
+
+  <!-- Main grid -->
+  <main class="main-grid">
+
+    <!-- Left: Editor -->
+    <div class="panel" style="display:flex;flex-direction:column;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <div class="dot"></div>
+          Move Smart Contract
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button id="btn-load-example" class="btn btn-ghost btn-sm">Load Example</button>
+          <button id="btn-clear" class="btn btn-ghost btn-sm">Clear</button>
+        </div>
+      </div>
+
+      <div id="editor-container"></div>
+
+      <div class="editor-footer">
+        <div class="code-meta" id="code-meta">Lines: 0 &nbsp;|&nbsp; Chars: 0</div>
+        <button id="btn-audit" class="btn btn-primary" onclick="startAudit()">
+          <span id="audit-btn-icon">🔍</span>
+          <span id="audit-btn-text">Audit Contract</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Results -->
+    <div class="panel" style="display:flex;flex-direction:column;">
+      <div class="panel-header">
+        <div class="panel-title">
+          <div class="dot"></div>
+          Audit Report
+        </div>
+        <span id="findings-count" style="font-size:0.78rem;color:var(--text-muted);"></span>
+      </div>
+
+      <div class="results-content" id="results-content">
+        <!-- Empty state -->
+        <div class="empty-state" id="empty-state">
+          <span class="icon">🛡️</span>
+          <p>
+            Your audit report will appear here.<br>
+            Paste a Move contract or <strong>Load Example</strong> and click <code>Audit Contract</code>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Export bar (hidden until audit) -->
+      <div class="export-bar" id="export-bar">
+        <button class="btn btn-ghost btn-sm" onclick="exportMarkdown()">📄 Export Markdown</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportJSON()">{ } Export JSON</button>
+        <button class="btn btn-ghost btn-sm" onclick="copyReport()">📋 Copy Report</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon">✅</span>
+    <span id="toast-msg">Done!</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
