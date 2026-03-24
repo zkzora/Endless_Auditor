@@ -12,7 +12,12 @@ const MODEL = process.env.OPENROUTER_MODEL || 'google/gemini-2.0-flash-001';
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
+
+const isVercel = process.env.VERCEL === '1';
+
+if (!isVercel) {
+  app.use(express.static(path.join(__dirname, 'public')));
+}
 
 // OpenRouter client (OpenAI-compatible)
 const openai = new OpenAI({
@@ -99,10 +104,12 @@ app.post('/api/audit', async (req, res) => {
   }
 });
 
-// ─── Serve frontend for all other routes ─────────────────────────────────────
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// ─── Serve frontend for all other routes (Locally only) ──────────────────────
+if (!isVercel) {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+}
 
 // ─── Start Server (Locally) / Export for Vercel ──────────────────────────────
 if (process.env.NODE_ENV !== 'production' && process.env.VERCEL !== '1') {
